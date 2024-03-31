@@ -1,1 +1,12 @@
-{"0xd5f7cf8e4cec0684561b07193363898cee1eaf17":{"symbol":"NALA","totalSupply":"1000000000000000000000000000000"}}
+{
+    "0xd5f7cf8e4cec0684561b07193363898cee1eaf17": {
+        "symbol": "NALA",
+        "totalSupply": "1000000000000000000000000000000",
+        "pairContractAddress": "0xd51abCC8cce923D06c098cD35fD955891bbB89fe"
+    },
+    "0x6ad1a993e57615896611522435a2a2005dbb8c32": {
+        "symbol": "SAD",
+        "totalSupply": "4444444444000000000000000000",
+        "pairContractAddress": "0x38760eCb47c89aC7a1C412Dcf2FA49c5D25C1833"
+    }
+}

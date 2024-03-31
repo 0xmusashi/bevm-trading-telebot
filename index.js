@@ -14,9 +14,8 @@ const {
 
 const {
     TELEGRAM_BOT_TOKEN,
-    BEVM_RPC_URL,
-    FACTORY_CONTRACT_ADDRESS,
-    WBTC_ADDRESS,
+    RPC_URL,
+    QUOTE_TOKEN_ADDRESS,
     TX_EXPLORER_URL,
     WBTC_ETH_ADDRESS,
     BUY_EMOJI,
@@ -30,13 +29,13 @@ const {
 
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
 
-const provider = new ethers.providers.JsonRpcProvider(BEVM_RPC_URL);
-const factoryContract = new ethers.Contract(FACTORY_CONTRACT_ADDRESS, factoryAbi, provider);
+const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
 
 async function main() {
     const addresses = await loadFromJsonFile();
     for (let tokenAddress in addresses) {
-        const pairContractAddress = await factoryContract.getPair(tokenAddress, WBTC_ADDRESS);
+        const tokenObj = addresses[tokenAddress];
+        const pairContractAddress = tokenObj.pairContractAddress;
         if (pairContractAddress == ADDRESS_ZERO) {
             continue;
         }
@@ -94,7 +93,7 @@ async function main() {
                 const reserves = await contract.getReserves();
                 const reserve0 = ethers.utils.formatUnits(reserves[0].toString());
                 const reserve1 = ethers.utils.formatUnits(reserves[1].toString());
-                const wbtcReserve = token0.toString().toLowerCase() == WBTC_ADDRESS ? reserve0 : reserve1;
+                const wbtcReserve = token0.toString().toLowerCase() == QUOTE_TOKEN_ADDRESS ? reserve0 : reserve1;
                 const tokenReserve = token0.toString().toLowerCase() == tokenAddress ? reserve0 : reserve1;
                 await sendAlert(isBuy, tokenAmount, wbtcAmount, event.transactionHash, tokenReserve, wbtcReserve, symbol, totalSupply.toString(), pairContractAddress);
 

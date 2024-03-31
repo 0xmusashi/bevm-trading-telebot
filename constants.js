@@ -1,11 +1,12 @@
 require('dotenv').config();
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const BEVM_RPC_URL = process.env.BEVM_RPC_URL;
-const FACTORY_CONTRACT_ADDRESS = process.env.FACTORY_CONTRACT_ADDRESS;
-const WBTC_ADDRESS = process.env.WBTC_ADDRESS.toString().toLowerCase();
+const QUOTE_TOKEN_ADDRESS = "0xb5136feba197f5ff4b765e5b50c74db717796dcd";
 
-const DEXSCREENER_API_ENDPOINT = process.env.DEXSCREENER_API_ENDPOINT;
+const RPC_URL = "https://rpc-mainnet-1.bevm.io";
+const FACTORY_CONTRACT_ADDRESS_1 = "0x2ccadb1e437aa9cdc741574bda154686b1f04c09";
+const FACTORY_CONTRACT_ADDRESS_2 = "0xc008f29aadda007b123919a5a0561c1b2e37864a";
+const DEXSCREENER_API_ENDPOINT = "https://api.dexscreener.com/latest/dex/tokens/";
 
 const TX_EXPLORER_URL = 'https://scan-mainnet.bevm.io/tx/';
 const CHART_URL = 'https://www.geckoterminal.com/vi/bevm/pools/';
@@ -23,9 +24,10 @@ const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
 
 module.exports = {
     TELEGRAM_BOT_TOKEN,
-    BEVM_RPC_URL,
-    FACTORY_CONTRACT_ADDRESS,
-    WBTC_ADDRESS,
+    RPC_URL,
+    FACTORY_CONTRACT_ADDRESS_1,
+    FACTORY_CONTRACT_ADDRESS_2,
+    QUOTE_TOKEN_ADDRESS,
     DEXSCREENER_API_ENDPOINT,
     TX_EXPLORER_URL,
     WBTC_ETH_ADDRESS,

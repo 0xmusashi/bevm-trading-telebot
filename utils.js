@@ -1,10 +1,19 @@
 const fs = require('fs/promises');
 const { ethers } = require('ethers');
 const tokenAbi = require('./erc20abi.json');
+const factoryAbi = require('./factoryAbi.json');
 
-const { BEVM_RPC_URL } = require('./constants');
+const {
+    RPC_URL,
+    FACTORY_CONTRACT_ADDRESS_1,
+    FACTORY_CONTRACT_ADDRESS_2,
+    QUOTE_TOKEN_ADDRESS,
+    ADDRESS_ZERO
+} = require('./constants');
 
-const provider = new ethers.providers.JsonRpcProvider(BEVM_RPC_URL);
+const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
+const factoryContract1 = new ethers.Contract(FACTORY_CONTRACT_ADDRESS_1, factoryAbi, provider);
+const factoryContract2 = new ethers.Contract(FACTORY_CONTRACT_ADDRESS_2, factoryAbi, provider);
 
 async function saveToJsonFile(contractAddress) {
     console.log(`Saving ${contractAddress}`);
@@ -12,19 +21,29 @@ async function saveToJsonFile(contractAddress) {
     try {
         const addresses = await loadFromJsonFile();
         let formattedAddress = contractAddress.toLowerCase();
-        if (!addresses.hasOwnProperty(formattedAddress)) {
-            const tokenContract = new ethers.Contract(formattedAddress, tokenAbi, provider);
-            const symbol = await tokenContract.symbol();
-            const totalSupply = await tokenContract.totalSupply();
-            const obj = {
-                symbol: symbol.toUpperCase(),
-                totalSupply: totalSupply.toString()
-            }
-            addresses[formattedAddress] = obj;
-            const jsonData = JSON.stringify(addresses);
-            const filePath = `./data/addresses.json`;
-            await fs.writeFile(filePath, jsonData);
+        const tokenContract = new ethers.Contract(formattedAddress, tokenAbi, provider);
+        const symbol = await tokenContract.symbol();
+        const totalSupply = await tokenContract.totalSupply();
+
+        const pairContractAddress1 = await factoryContract1.getPair(formattedAddress, QUOTE_TOKEN_ADDRESS);
+        const pairContractAddress2 = await factoryContract2.getPair(formattedAddress, QUOTE_TOKEN_ADDRESS);
+
+        let pairContractAddress = ADDRESS_ZERO;
+        if (pairContractAddress1 != ADDRESS_ZERO) {
+            pairContractAddress = pairContractAddress1;
+        } else if (pairContractAddress2 != ADDRESS_ZERO) {
+            pairContractAddress = pairContractAddress2;
         }
+
+        const obj = {
+            symbol: symbol.toUpperCase(),
+            totalSupply: totalSupply.toString(),
+            pairContractAddress
+        }
+        addresses[formattedAddress] = obj;
+        const jsonData = JSON.stringify(addresses);
+        const filePath = `./data/addresses.json`;
+        await fs.writeFile(filePath, jsonData);
     } catch (error) {
         console.log('error: ', error);
         throw new Error("Write to file error");
