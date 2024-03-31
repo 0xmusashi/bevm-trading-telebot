@@ -5,7 +5,12 @@ const tokenAbi = require('./erc20abi.json');
 const factoryAbi = require('./factoryAbi.json');
 const axios = require('axios');
 
-const { saveToJsonFile, loadFromJsonFile, removeAddress } = require('./utils');
+const {
+    saveToJsonFile,
+    loadFromJsonFile,
+    removeAddress,
+    formatNumber
+} = require('./utils');
 
 const {
     TELEGRAM_BOT_TOKEN,
@@ -130,18 +135,18 @@ async function sendAlert(isBuy, tokenAmount, wbtcAmount, txHash, tokenReserve, w
     if (isBuy) {
         message = `<b>New $${symbol.toUpperCase()} ${buySellMsg}!</b>\n\n` +
             `${emojiString}\n\n` +
-            `<b>💲 Spent ${parseFloat(inAmount.toFixed(5))} ${inSymbol} ($${wbtcPriceUsd.toFixed(2)})</b>\n\n` +
-            `<b>💰 Got: ${parseFloat(outAmount.toFixed(5))} ${outSymbol}</b>\n\n`;
+            `<b>💲 Spent ${formatNumber(parseFloat(inAmount.toFixed(5)))} ${inSymbol} ($${wbtcPriceUsd.toFixed(2)})</b>\n\n` +
+            `<b>💰 Got: ${formatNumber(parseFloat(outAmount.toFixed(5)))} ${outSymbol}</b>\n\n`;
     } else {
         message = `<b>New $${symbol.toUpperCase()} ${buySellMsg}!</b>\n\n` +
             `${emojiString}\n\n` +
-            `<b>💲 Spent ${parseFloat(inAmount.toFixed(5))} ${inSymbol}</b>\n\n` +
-            `<b>💰 Got: ${parseFloat(outAmount.toFixed(5))} ${outSymbol} ($${wbtcPriceUsd.toFixed(2)})</b>\n\n`;
+            `<b>💲 Spent ${formatNumber(parseFloat(inAmount.toFixed(5)))} ${inSymbol}</b>\n\n` +
+            `<b>💰 Got: ${formatNumber(parseFloat(outAmount.toFixed(5)))} ${outSymbol} ($${wbtcPriceUsd.toFixed(2)})</b>\n\n`;
     }
 
     message += `<b>🏷️ Price: $${tokenPrice.toFixed(12)}</b>\n\n` +
-        `<b>🏦 Liquidity: $${liquidity.toFixed(2)}</b>\n\n` +
-        `<b>📊 Market Cap: $${marketCap.toFixed(2)}</b>\n\n` +
+        `<b>🏦 Liquidity: $${formatNumber(liquidity.toFixed(2))}</b>\n\n` +
+        `<b>📊 Market Cap: $${formatNumber(marketCap.toFixed(2))}</b>\n\n` +
         `<b>🔗 <a href='${TX_EXPLORER_URL}${txHash}'>Tx</a> | <a href='${CHART_URL}${pairContractAddress}'>Chart</a></b>\n\n`;
 
     const opts = {
