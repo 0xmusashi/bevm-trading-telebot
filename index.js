@@ -115,9 +115,9 @@ async function sendAlert(isBuy, tokenAmount, wbtcAmount, txHash, tokenReserve, w
     const numberEmojies = parseInt(wbtcPriceUsd / 10);
     let emojiString = '';
     if (isBuy) {
-        emojiString = BUY_EMOJI.repeat(numberEmojies);
+        emojiString = BUY_EMOJI + BUY_EMOJI.repeat(numberEmojies);
     } else {
-        emojiString = SELL_EMOJI.repeat(numberEmojies);
+        emojiString = SELL_EMOJI + SELL_EMOJI.repeat(numberEmojies);
     }
 
     const tokenPrice = parseFloat(wbtcReserve) * currentBtcPrice / parseFloat(tokenReserve);
