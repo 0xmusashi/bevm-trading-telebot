@@ -91,7 +91,6 @@ async function main() {
                 const reserve1 = ethers.utils.formatUnits(reserves[1].toString());
                 const wbtcReserve = token0.toString().toLowerCase() == WBTC_ADDRESS ? reserve0 : reserve1;
                 const tokenReserve = token0.toString().toLowerCase() == tokenAddress ? reserve0 : reserve1;
-                console.log('1');
                 await sendAlert(isBuy, tokenAmount, wbtcAmount, event.transactionHash, tokenReserve, wbtcReserve, symbol, totalSupply.toString(), pairContractAddress);
 
             } catch (err) {
