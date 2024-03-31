@@ -140,7 +140,7 @@ async function sendAlert(isBuy, tokenAmount, wbtcAmount, txHash, tokenReserve, w
     } else {
         message = `<b>New $${symbol.toUpperCase()} ${buySellMsg}!</b>\n\n` +
             `${emojiString}\n\n` +
-            `<b>💲 Spent ${formatNumber(parseFloat(inAmount.toFixed(5)))} ${inSymbol}</b>\n\n` +
+            `<b>💲 Sold ${formatNumber(parseFloat(inAmount.toFixed(5)))} ${inSymbol}</b>\n\n` +
             `<b>💰 Got: ${formatNumber(parseFloat(outAmount.toFixed(5)))} ${outSymbol} ($${wbtcPriceUsd.toFixed(2)})</b>\n\n`;
     }
 
