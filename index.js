@@ -19,7 +19,8 @@ const {
     CHAT_IDS,
     ADMIN_IDS,
     DEXSCREENER_API_ENDPOINT,
-    ADDRESS_ZERO
+    ADDRESS_ZERO,
+    CHART_URL
 } = require('./constants');
 
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -91,7 +92,7 @@ async function main() {
                 const wbtcReserve = token0.toString().toLowerCase() == WBTC_ADDRESS ? reserve0 : reserve1;
                 const tokenReserve = token0.toString().toLowerCase() == tokenAddress ? reserve0 : reserve1;
                 console.log('1');
-                await sendAlert(isBuy, tokenAmount, wbtcAmount, event.transactionHash, tokenReserve, wbtcReserve, symbol, totalSupply.toString());
+                await sendAlert(isBuy, tokenAmount, wbtcAmount, event.transactionHash, tokenReserve, wbtcReserve, symbol, totalSupply.toString(), pairContractAddress);
 
             } catch (err) {
                 console.log('error: ', err);
@@ -100,7 +101,7 @@ async function main() {
     }
 }
 
-async function sendAlert(isBuy, tokenAmount, wbtcAmount, txHash, tokenReserve, wbtcReserve, symbol, totalSupply) {
+async function sendAlert(isBuy, tokenAmount, wbtcAmount, txHash, tokenReserve, wbtcReserve, symbol, totalSupply, pairContractAddress) {
     const buySellMsg = isBuy ? 'Buy' : 'Sell';
     const inAmount = isBuy ? wbtcAmount : tokenAmount;
     const outAmount = isBuy ? tokenAmount : wbtcAmount;
@@ -142,7 +143,7 @@ async function sendAlert(isBuy, tokenAmount, wbtcAmount, txHash, tokenReserve, w
     message += `<b>🏷️ Price: $${tokenPrice.toFixed(12)}</b>\n\n` +
         `<b>🏦 Liquidity: $${liquidity.toFixed(2)}</b>\n\n` +
         `<b>📊 Market Cap: $${marketCap.toFixed(2)}</b>\n\n` +
-        `<b>🔗 Tx: <a href='${TX_EXPLORER_URL}${txHash}'>Check here</a></b>\n\n`;
+        `<b>🔗 <a href='${TX_EXPLORER_URL}${txHash}'>Tx</a> | <a href='${CHART_URL}${pairContractAddress}'>Chart</a></b>\n\n`;
 
     const opts = {
         parse_mode: 'HTML',

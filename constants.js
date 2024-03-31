@@ -8,6 +8,7 @@ const WBTC_ADDRESS = process.env.WBTC_ADDRESS.toString().toLowerCase();
 const DEXSCREENER_API_ENDPOINT = process.env.DEXSCREENER_API_ENDPOINT;
 
 const TX_EXPLORER_URL = 'https://scan-mainnet.bevm.io/tx/';
+const CHART_URL = 'https://www.geckoterminal.com/vi/bevm/pools/';
 const WBTC_ETH_ADDRESS = '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599';
 
 const BASE_BUY_EMOJIES = '💚💚💚💚💚💚💚💚💚💚';
@@ -34,5 +35,6 @@ module.exports = {
     SELL_EMOJI,
     CHAT_IDS,
     ADMIN_IDS,
-    ADDRESS_ZERO
+    ADDRESS_ZERO,
+    CHART_URL
 }
