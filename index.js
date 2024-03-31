@@ -24,7 +24,8 @@ const {
     ADMIN_IDS,
     DEXSCREENER_API_ENDPOINT,
     ADDRESS_ZERO,
-    CHART_URL
+    CHART_URL,
+    THRESHOLD
 } = require('./constants');
 
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -151,9 +152,13 @@ async function sendAlert(isBuy, tokenAmount, wbtcAmount, txHash, tokenReserve, w
     const opts = {
         parse_mode: 'HTML',
     }
-    for (const chatId of CHAT_IDS) {
-        await bot.sendMessage(chatId, message, opts);
+
+    if (wbtcPriceUsd >= THRESHOLD) {
+        for (const chatId of CHAT_IDS) {
+            await bot.sendMessage(chatId, message, opts);
+        }
     }
+
 }
 
 bot.onText(/\/contract (.+)/, async (msg, match) => {

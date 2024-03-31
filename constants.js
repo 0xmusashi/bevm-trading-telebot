@@ -22,6 +22,8 @@ const ADMIN_IDS = [1559803968, 2127544523];
 
 const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
 
+const THRESHOLD = 500;
+
 module.exports = {
     TELEGRAM_BOT_TOKEN,
     RPC_URL,
@@ -38,5 +40,6 @@ module.exports = {
     CHAT_IDS,
     ADMIN_IDS,
     ADDRESS_ZERO,
-    CHART_URL
+    CHART_URL,
+    THRESHOLD
 }
